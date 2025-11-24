@@ -1,0 +1,81 @@
+#continuation from step 5 import files and library if not available 
+# Differential Expression Analysis
+res <- results(dds, contrast = c("condition", "TNBC", "Normal"))
+res <- lfcShrink(dds, coef = 2, type = "apeglm")
+
+# Save DE Results
+write.csv(as.data.frame(res), "differential_expression_results.csv")
+
+# Summary of DEGs
+significant_genes <- subset(res, padj < 0.05 & !is.na(padj))
+upregulated_genes <- nrow(subset(significant_genes, log2FoldChange > 0))
+downregulated_genes <- nrow(subset(significant_genes, log2FoldChange < 0))
+cat("Total DE genes: ", nrow(significant_genes), "\n")
+cat("Up-regulated genes: ", upregulated_genes, "\n")
+cat("Down-regulated genes: ", downregulated_genes, "\n")
+
+# Volcano Plot
+res$significant <- ifelse(res$padj < 0.05 & abs(res$log2FoldChange) > 1, "yes", "no")
+volcano_plot <- ggplot(as.data.frame(res), aes(x = log2FoldChange, y = -log10(padj), color = significant)) +
+  geom_point(alpha = 0.5) +
+  scale_color_manual(values = c("no" = "grey", "yes" = "red")) +
+  theme_minimal() +
+  xlab("Log2 Fold Change") +
+  ylab("-Log10 Adjusted P-value")
+ggsave(filename = "Volcano_plot.jpeg", plot = volcano_plot, width = 6, height = 4)
+
+# List of conditions to compare with Normal
+conditions <- c("TNBC", "NonTNBC", "HER2")
+
+# Loop through each condition and generate volcano plot
+for (condition in conditions) {
+  # Perform Differential Expression Analysis
+  res <- results(dds, contrast = c("condition", condition, "Normal"))
+  
+  # Shrink log fold changes using apeglm
+  res <- lfcShrink(dds, coef = 2, type = "apeglm")
+  
+  # Add a column to indicate significance
+  res$significant <- ifelse(res$padj < 0.05 & abs(res$log2FoldChange) > 1, "yes", "no")
+  
+  # Convert results to a data frame
+  res_df <- as.data.frame(res)
+  
+  # Generate the Volcano Plot
+  volcano_plot <- ggplot(res_df, aes(x = log2FoldChange, y = -log10(padj), color = significant)) +
+    geom_point(alpha = 0.5) +
+    scale_color_manual(values = c("no" = "grey", "yes" = "red")) +
+    theme_minimal() +
+    xlab("Log2 Fold Change") +
+    ylab("-Log10 Adjusted P-value") +
+    ggtitle(paste("Volcano Plot:", condition, "vs Normal"))
+  
+  # Save the plot
+  ggsave(filename = paste0("Volcano_plot_", condition, "_vs_Normal.jpeg"), plot = volcano_plot, width = 6, height = 4)
+}
+
+# Gene Expression Plots for Selected Genes
+gene_ids <- c("ENSG00000162444", "ENSG00000139618", "ENSG00000141510")
+for (gene_id in gene_ids) {
+  d <- plotCounts(dds, gene = gene_id, intgroup = "condition", returnData = TRUE)
+  gene_expression_plot <- ggplot(d, aes(x = condition, y = count)) +
+    geom_point(position = position_jitter(w = 0.1, h = 0)) +
+    scale_y_log10() +
+    ggtitle(paste("Expression of", gene_id)) +
+    xlab("Condition") +
+    ylab("Normalized Counts")
+  ggsave(filename = paste0("Gene_expression_", gene_id, ".jpeg"), plot = gene_expression_plot, width = 6, height = 4)
+}
+
+# Overrepresentation Analysis
+gene_list <- rownames(subset(res, padj < 0.05 & !is.na(padj)))
+universe <- rownames(res)
+go_enrich <- enrichGO(
+  gene         = gene_list,
+  universe     = universe,
+  OrgDb        = org.Hs.eg.db,
+  ont          = "BP",
+  keyType      = "ENSEMBL",
+  pAdjustMethod = "BH"
+)
+write.csv(as.data.frame(go_enrich), "GO_enrichment_results.csv")
