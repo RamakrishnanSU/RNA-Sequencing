@@ -19,7 +19,7 @@ The dataset comprises **12 paired-end RNA-Seq libraries**, with three biological
   * **TNBC** (Triple-Negative Breast Cancer)
   * **Non-TNBC** (Non-Triple-Negative Breast Cancer)
   * **HER2** (HER2-positive Breast Cancer)
-  * [cite\_start]**Normal** (Healthy Control Samples) [cite: 30]
+  * **Normal** (Healthy Control Samples) 
 
 -----
 
@@ -27,11 +27,11 @@ The dataset comprises **12 paired-end RNA-Seq libraries**, with three biological
 
 The entire bioinformatics pipeline was executed in a controlled environment using SLURM job arrays and Apptainer containers.
 
-1.  [cite\_start]**Quality Control (QC)**: Performed using **FastQC** to assess base quality, adapter contamination, and sequence duplication rates[cite: 21, 33, 34].
-2.  [cite\_start]**Read Alignment**: Reads were mapped to the $Homo\_sapiens.GRCh38.113$ reference genome using **HISAT2**[cite: 21, 39, 44].
-      * [cite\_start]*Result Highlight*: Normal samples showed high overall alignment rates $(>96\%)$ and high concordance $(>80\%)$, while tumor samples (TNBC, Non-TNBC, HER2) had lower concordance rates (30% to 50%), likely due to the structural rearrangements typical of cancer genomes[cite: 93, 96, 97, 130, 131, 132].
-3.  [cite\_start]**Read Counting**: Gene quantification was performed using **featureCounts** to determine the number of reads overlapping with annotated genes[cite: 21, 61].
-4.  [cite\_start]**Differential Expression Analysis (DEA)**: The raw count matrix was analyzed using the **DESeq2** R package to identify differentially expressed genes between the tumor subtypes and the Normal controls[cite: 21, 70].
+1.  **Quality Control (QC)**: Performed using **FastQC** to assess base quality, adapter contamination, and sequence duplication rates.
+2.  **Read Alignment**: Reads were mapped to the $Homo\_sapiens.GRCh38.113$ reference genome using **HISAT2**.
+      * *Result Highlight*: Normal samples showed high overall alignment rates $(>96\%)$ and high concordance $(>80\%)$, while tumor samples (TNBC, Non-TNBC, HER2) had lower concordance rates (30% to 50%), likely due to the structural rearrangements typical of cancer genomes.
+3. **Read Counting**: Gene quantification was performed using **featureCounts** to determine the number of reads overlapping with annotated genes.
+4. **Differential Expression Analysis (DEA)**: The raw count matrix was analyzed using the **DESeq2** R package to identify differentially expressed genes between the tumor subtypes and the Normal controls.
 
 -----
 
@@ -43,8 +43,8 @@ The entire bioinformatics pipeline was executed in a controlled environment usin
 | `Rna_Sequencing.sh` | SLURM submission scripts for HISAT2 indexing, alignment, sorting, indexing BAM files, and featureCounts. |
 | `RNA-Seq Analysis Report.pdf` | The final project report detailing the materials, methods, results, and discussion. |
 | `normalized_counts_matrix.csv` | Output file from the R script: Variance-Stabilized Transformed (VST) normalized gene expression counts. |
-| `differential_expression_results.csv` | [cite\_start]Output file from the R script: Full DESeq2 results comparing **TNBC** vs **Normal**[cite: 4]. |
-| `significant_genes.csv` | [cite\_start]Output file from the R script: Subset of DEGs with an adjusted p-value $(padj < 0.05)$[cite: 4]. |
+| `differential_expression_results.csv` | Output file from the R script: Full DESeq2 results comparing **TNBC** vs **Normal**. |
+| `significant_genes.csv` | Output file from the R script: Subset of DEGs with an adjusted p-value $(padj < 0.05)$ |
 | `PCA_plot.jpeg` | Output figure visualizing sample clustering based on the top two principal components.  |
 | `heatmap_top_variable_genes.jpeg` | Output figure visualizing the expression of the top 50 most variable genes across all samples.  |
 
@@ -54,16 +54,16 @@ The entire bioinformatics pipeline was executed in a controlled environment usin
 
 #### Sample Clustering
 
-[cite\_start]The Principal Component Analysis (PCA) plot (Figure 1 in the report) and the Heatmap (Figure 2 in the report) show that samples cluster distinctly based on their condition (HER2, NonTNBC, Normal, TNBC)[cite: 202, 227].
+The Principal Component Analysis (PCA) plot (Figure 1 in the report) and the Heatmap (Figure 2 in the report) show that samples cluster distinctly based on their condition (HER2, NonTNBC, Normal, TNBC).
 
-  * [cite\_start]**PC1** accounts for **59%** of the variance, and **PC2** accounts for **16%**, demonstrating that gene expression profiles are highly condition-specific, making the data suitable for downstream differential analysis[cite: 203, 204].
+  * **PC1** accounts for **59%** of the variance, and **PC2** accounts for **16%**, demonstrating that gene expression profiles are highly condition-specific, making the data suitable for downstream differential analysis.
 
 #### Differential Expression
 
-[cite\_start]Comparing the different subtypes, a total of **12,783 DEGs** were identified, with **4,541 upregulated** and **8,242 downregulated** genes[cite: 230, 262].
+Comparing the different subtypes, a total of **12,783 DEGs** were identified, with **4,541 upregulated** and **8,242 downregulated** genes.
 
-  * [cite\_start]**ENSG00000139618**: Showed **significantly higher expression in TNBC** compared to other subtypes, suggesting its potential role in the aggressive nature of TNBC[cite: 233, 263].
-  * [cite\_start]**ENSG000001414510**: Exhibited **elevated expression in Normal and NonTNBC** samples but was lower in HER2 and TNBC, indicating its potential involvement in normal cellular processes and suppression in tumorigenic conditions[cite: 235, 264].
+  * **ENSG00000139618**: Showed **significantly higher expression in TNBC** compared to other subtypes, suggesting its potential role in the aggressive nature of TNBC.
+  * **ENSG000001414510**: Exhibited **elevated expression in Normal and NonTNBC** samples but was lower in HER2 and TNBC, indicating its potential involvement in normal cellular processes and suppression in tumorigenic conditions.
 
 #### Functional Enrichment
 
@@ -72,9 +72,9 @@ Overrepresentation analysis of the DEGs highlighted key biological processes, in
   * **Nucleosome assembly** (GO:0006334)
   * **Cellular response to bacterial molecules** (GO:0071219, GO:0002237)
   * **Response to lipopolysaccharide** (GO:0032496)
-  * [cite\_start]**Cytoplasmic translation** (GO:0002181)[cite: 256].
+  * **Cytoplasmic translation** (GO:0002181).
 
-[cite\_start]These terms suggest involvement in **immune responses**, **chromatin remodeling**, and **protein synthesis**[cite: 257, 268]. [cite\_start]TNBC specifically showed upregulation in **cell cycle** and **DNA repair** genes, consistent with its aggressive phenotype[cite: 267].
+These terms suggest involvement in **immune responses**, **chromatin remodeling**, and **protein synthesis**. TNBC specifically showed upregulation in **cell cycle** and **DNA repair** genes, consistent with its aggressive phenotype.
 
 -----
 
@@ -82,10 +82,10 @@ Overrepresentation analysis of the DEGs highlighted key biological processes, in
 
 | Tool | Purpose | Container Path (from report) |
 | :--- | :--- | :--- |
-| **FastQC** | Initial quality control | [cite\_start]`/containers/apptainer/fastqc-0.12.1.sif` [cite: 35] |
-| **HISAT2** | Alignment to reference genome | [cite\_start]`/containers/apptainer/hisat2_samtools_408dfd02f175cd88.sif` [cite: 45, 53] |
-| **Samtools** | SAM/BAM file sorting and indexing | [cite\_start]Included in HISAT2 container [cite: 54, 55] |
-| **featureCounts** | Read quantification (gene counting) | [cite\_start]`subread_2.0.1--hed695b0_0.sif` [cite: 64] |
+| **FastQC** | Initial quality control | `/containers/apptainer/fastqc-0.12.1.sif`  |
+| **HISAT2** | Alignment to reference genome | `/containers/apptainer/hisat2_samtools_408dfd02f175cd88.sif`  |
+| **Samtools** | SAM/BAM file sorting and indexing |Included in HISAT2 container |
+| **featureCounts** | Read quantification (gene counting) | `subread_2.0.1--hed695b0_0.sif`  |
 | **DESeq2** (R package) | Differential expression analysis | R environment |
 | **pheatmap** (R package) | Heatmap generation | R environment |
 | **ggplot2** (R package) | PCA plot generation | R environment |
@@ -120,7 +120,7 @@ res <- results(dds, contrast = c("condition", "TNBC", "Normal"))
 
 The analysis utilized data and methods from the following sources:
 
-1.  Eswaran, J., et al. (2012). RNA sequencing of breast cancer samples. [cite\_start]*Journal of Cancer Genomics, 5(3), 123-135*. [cite: 275]
-2.  Love, M. I., et al. (2014). Moderated estimation of fold change and dispersion for RNA-Seq data with DESeq2. [cite\_start]*Genome Biology, 15(12), 550*. [cite: 276, 277]
+1.  Eswaran, J., et al. (2012). RNA sequencing of breast cancer samples. *Journal of Cancer Genomics, 5(3), 123-135*. 
+2.  Love, M. I., et al. (2014). Moderated estimation of fold change and dispersion for RNA-Seq data with DESeq2. *Genome Biology, 15(12), 550*. 
 
 -----
