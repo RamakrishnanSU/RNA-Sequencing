@@ -1,7 +1,4 @@
 
-
-
-
 ## 🧬 RNA-Seq Analysis of Breast Tumor Subtypes and Healthy Samples
 
 This repository contains the code, analysis scripts, and resulting figures for an RNA Sequencing (RNA-Seq) project focused on identifying differentially expressed genes (DEGs) between different breast cancer subtypes (Triple-Negative Breast Cancer - **TNBC**, Non-TNBC, and HER2-positive) and healthy control samples.
