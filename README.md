@@ -9,7 +9,7 @@ The analysis pipeline was designed and executed on the IBU Cluster using dedicat
 
 ### 📝 Project Overview
 
-This study utilized publicly available RNA-Seq data from Eswaran et al. (2012) [cite\_start](GEO accession **GSE52194**) to explore subtype-specific gene expression patterns, which is critical for developing targeted therapies and understanding cancer heterogeneity[cite: 13, 18, 20, 24, 25, 30].
+This study utilized publicly available RNA-Seq data from Eswaran et al. (2012) (GEO accession **GSE52194**) to explore subtype-specific gene expression patterns, which is critical for developing targeted therapies and understanding cancer heterogeneity.
 
 The dataset comprises **12 paired-end RNA-Seq libraries**, with three biological replicates for each condition:
 
